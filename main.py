@@ -22,6 +22,7 @@ st.write('You can use this to find a lipstick color that you like, available at 
 df = pd.read_csv("df.csv")
 
 with st.expander("Choose a color", expanded=True):
+    st.write("Choose a brand and color swatch of a lipstick you already like! If you don't have one, choose a color from the HEX color picker instead.")
     prod = st.selectbox('Brand', np.append(['Select'], df['brand'].unique()))
     if prod!='Select':
         df_prod = df.loc[df['brand']==prod]
@@ -35,7 +36,7 @@ with st.expander("Choose a color", expanded=True):
     st.session_state['hex_color'] = color
     st.session_state['rgb_corner']=rgb_corner(hex_to_rgb(st.session_state['hex_color']))
       
-if st.button('Run Altair'):
+if st.button('Run Altair graphs for your chosen color to find your next lipstick!'):
     df_filtered = df.loc[(df['r0']>st.session_state['rgb_corner'][0]-corner_step)
                          &(df['r0']<st.session_state['rgb_corner'][0]+corner_step)]
     df_filtered = df_filtered.loc[(df_filtered['g0']>st.session_state['rgb_corner'][1]-corner_step)
