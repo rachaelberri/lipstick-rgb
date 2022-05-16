@@ -24,8 +24,10 @@ def get_rgb_top(hex_color, rgb_corner, df_filtered):
         y=alt.Y('y', bin=alt.Bin(extent=[0, 255], step=step), axis = None), 
         color=alt.value('white'),
         size = alt.value(250),
+        href='url:N',
         tooltip = [alt.Tooltip('brand', title='Brand'), 
-                   alt.Tooltip('color', title='Swatch')]
+                   alt.Tooltip('color', title='Swatch'), 
+                   alt.Tooltip('url', title='Google')]
     )
     x_selected, y_selected = xy_rgb(hex_to_rgb(hex_color))
     graph_selected = alt.Chart(pd.DataFrame({'x':[x_selected], 'y':[y_selected]})).mark_circle().encode(
