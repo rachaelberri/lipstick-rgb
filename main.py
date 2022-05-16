@@ -10,9 +10,9 @@ st.set_page_config(page_title="Lipstick RGB", page_icon="💋")
 corner_step = 5
 # initialize
 if 'hex_color' not in st.session_state:
-    st.session_state['hex_color'] = '#ffffff'
+    st.session_state['hex_color'] = '#c71236'
 if 'rgb_corner' not in st.session_state:
-    st.session_state['rgb_corner'] = (255, 255, 255)
+    st.session_state['rgb_corner'] = (250, 0, 50)
     
 st.title('Lipstick RGB')
 # Left-> more muted, Right-> more vibrant
