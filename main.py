@@ -46,7 +46,7 @@ else:
                                   &(df_filtered['g0']<st.session_state['rgb_corner'][1]+corner_step)]    
     df_filtered = df_filtered.loc[(df_filtered['b0']>st.session_state['rgb_corner'][2]-corner_step)
                                   &(df_filtered['b0']<st.session_state['rgb_corner'][2]+corner_step)] 
-    st.write('Hover over the white dots for a new lipstick')
+    st.write('Click the white dots to see the lipstick brand and shade')
     col1, col2 = st.columns(2)
     col1.write('Left --> more muted')
     col2.write('Right --> more vibrant')
