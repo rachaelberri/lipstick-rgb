@@ -23,7 +23,7 @@ def get_rgb_top(hex_color, rgb_corner, df_filtered):
         x=alt.X('x', bin=alt.Bin(extent=[0, 255], step=step), axis = None),  # 
         y=alt.Y('y', bin=alt.Bin(extent=[0, 255], step=step), axis = None), 
         color=alt.value('white'),
-        size = alt.value(150),
+        size = alt.value(250),
         tooltip = [alt.Tooltip('brand', title='Brand'), 
                    alt.Tooltip('product', title='Product'),
                    alt.Tooltip('color', title='Swatch')]
@@ -33,7 +33,7 @@ def get_rgb_top(hex_color, rgb_corner, df_filtered):
         x=alt.X('x', bin=alt.Bin(extent=[0, 255], step=step), axis = None),  # 
         y=alt.Y('y', bin=alt.Bin(extent=[0, 255], step=step), axis = None), 
         color=alt.value('white'),
-        size = alt.value(500),
+        size = alt.value(600),
     ).properties(width = 600,height = 600, )
     return st.altair_chart((graph+graph_selected+graph_lipsticks))
 
