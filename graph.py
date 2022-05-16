@@ -24,7 +24,7 @@ def get_rgb_top(hex_color, rgb_corner, df_filtered):
         y=alt.Y('y', bin=alt.Bin(extent=[0, 255], step=step), axis = None), 
         color=alt.value('white'),
         size = alt.value(250),
-        href='url:N',
+        #href='url:N',
         tooltip = [alt.Tooltip('brand', title='Brand'), 
                    alt.Tooltip('color', title='Swatch')]
     )
