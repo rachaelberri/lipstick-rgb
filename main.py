@@ -17,32 +17,41 @@ if 'rgb_corner' not in st.session_state:
 st.title('Lipstick RGB')
 # Left-> more muted, Right-> more vibrant
 # Higher-> Higher, Lower-> Darker
-st.write('You can use this to find a lipstick color that you like, available at Sephora. Choose a starting lipstick or color, then run Altair to choose a lighter, darker, or more/less vibrant color!')
 
 df = pd.read_csv("df.csv")
+#with st.expander("Choose a color", expanded=True):
+prod = st.sidebar.selectbox('Brand', np.append(['Select'], df['brand'].unique()))
+if prod!='Select':
+    df_prod = df.loc[df['brand']==prod]
+    swatch = st.sidebar.selectbox('Swatch', np.append(['Select'], df_prod['color'].unique()))
+    # return index
+    if swatch!='Select':
+        st.session_state['hex_color'] = df.loc[(df['brand']==prod)&(df['color']==swatch)]['hex'].values[0]
 
-with st.expander("Choose a color", expanded=True):
-    st.write("Choose a brand and color swatch of a lipstick you already like! If you don't have one, choose a color from the HEX color picker instead.")
-    prod = st.selectbox('Brand', np.append(['Select'], df['brand'].unique()))
-    if prod!='Select':
-        df_prod = df.loc[df['brand']==prod]
-        swatch = st.selectbox('Swatch', np.append(['Select'], df_prod['color'].unique()))
-        # return index
-        if swatch!='Select':
-            lipstick_chooser(df, prod, swatch)
-            # Color should change when a lipstick is picked
-    color = st.color_picker('Or a HEX color', value = st.session_state['hex_color'] )
-    # replace with rgb bottom?
-    st.session_state['hex_color'] = color
-    st.session_state['rgb_corner']=rgb_corner(hex_to_rgb(st.session_state['hex_color']))
-      
-if st.button('Run Altair graphs for your chosen color to find your next lipstick!'):
+# Color should change when a lipstick is picked
+# replace with rgb bottom?
+st.session_state['hex_color'] = st.sidebar.color_picker('Or a HEX color', value = st.session_state['hex_color'] )
+st.session_state['rgb_corner']=rgb_corner(hex_to_rgb(st.session_state['hex_color']))
+
+if not st.sidebar.button('Find a new Lipstick'):
+    st.write("""You can use this to find a lipstick color that you like, available at Sephora.""")
+    st.write("""First, choose a lipstick brand and color swatch, or just a color from the HEX color picker on the sidebar,
+    then press the `Find a new lipstick` button to look for a new color color!""")
+else:
+#if st.sidebar.button('Find a new Lipstick'):
+
     df_filtered = df.loc[(df['r0']>st.session_state['rgb_corner'][0]-corner_step)
                          &(df['r0']<st.session_state['rgb_corner'][0]+corner_step)]
     df_filtered = df_filtered.loc[(df_filtered['g0']>st.session_state['rgb_corner'][1]-corner_step)
                                   &(df_filtered['g0']<st.session_state['rgb_corner'][1]+corner_step)]    
     df_filtered = df_filtered.loc[(df_filtered['b0']>st.session_state['rgb_corner'][2]-corner_step)
                                   &(df_filtered['b0']<st.session_state['rgb_corner'][2]+corner_step)] 
+    st.write('Hover over the white dots for a new lipstick')
+    col1, col2 = st.columns(2)
+    col1.write('Left --> more muted')
+    col2.write('Right --> more vibrant')
+    col1.write('Higher --> lighter')
+    col2.write('Lower --> darker')
     get_rgb_top(st.session_state['hex_color'], st.session_state['rgb_corner'], df_filtered)
     get_rgb_bottom(st.session_state['rgb_corner'])
     st.write(df_filtered[['brand', 'product', 'color']])

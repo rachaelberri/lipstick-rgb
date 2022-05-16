@@ -19,7 +19,7 @@ def get_rgb_top(hex_color, rgb_corner, df_filtered):
         color=alt.Color('hex', scale = alt.Scale(domain=colorlist, range=colorlist), legend = None),
         opacity = alt.value(1),
     ).properties(width = 600,height = 600, )
-    graph_selected = alt.Chart(df_filtered).mark_circle().encode(
+    graph_lipsticks = alt.Chart(df_filtered).mark_circle(opacity = 1).encode(
         x=alt.X('x', bin=alt.Bin(extent=[0, 255], step=step), axis = None),  # 
         y=alt.Y('y', bin=alt.Bin(extent=[0, 255], step=step), axis = None), 
         color=alt.value('white'),
@@ -27,9 +27,15 @@ def get_rgb_top(hex_color, rgb_corner, df_filtered):
         tooltip = [alt.Tooltip('brand', title='Brand'), 
                    alt.Tooltip('product', title='Product'),
                    alt.Tooltip('color', title='Swatch')]
-    ).properties(width = 600,height = 600, title = 'RGB Picker')
-
-    return st.altair_chart((graph+graph_selected))
+    )
+    x_selected, y_selected = xy_rgb(hex_to_rgb(hex_color))
+    graph_selected = alt.Chart(pd.DataFrame({'x':[x_selected], 'y':[y_selected]})).mark_circle().encode(
+        x=alt.X('x', bin=alt.Bin(extent=[0, 255], step=step), axis = None),  # 
+        y=alt.Y('y', bin=alt.Bin(extent=[0, 255], step=step), axis = None), 
+        color=alt.value('white'),
+        size = alt.value(500),
+    ).properties(width = 600,height = 600, )
+    return st.altair_chart((graph+graph_selected+graph_lipsticks))
 
 def get_rgb_bottom(rgb_corner):
     step=10

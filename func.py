@@ -27,11 +27,11 @@ def rgb_xy(x, y, rgb):
     # takes xy values and calculates the rgb value in that location
     return int((255-((255-rgb)*x/255))*(y/255))
 
-#def xy_rgb(rgb):
-#    # takes rgb values as a tuple and calculates the xy
-#    y = max(rgb)
-#    x = 255-(255*min(rgb)/y)
-#    return x,y
+def xy_rgb(rgb):
+    # takes rgb values as a tuple and calculates the xy
+    y = max(rgb)
+    x = 255-(255*min(rgb)/y)
+    return x,y
 
 #def rgb_round(rgb, step):
 #    #take each of r, g, b and round by step
