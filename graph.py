@@ -19,14 +19,17 @@ def get_rgb_top(hex_color, rgb_corner, df_filtered):
         color=alt.Color('hex', scale = alt.Scale(domain=colorlist, range=colorlist), legend = None),
         opacity = alt.value(1),
     ).properties(width = 600,height = 600, )
-    graph_lipsticks = alt.Chart(df_filtered).mark_circle(opacity = 1).encode(
+    graph_lipsticks = alt.Chart(df_filtered).transform_calculate(
+        url='https://www.google.com/search?q=' + alt.datum.brand + ' ' + alt.datum.color
+    ).mark_circle(opacity = 1).encode(
         x=alt.X('x', bin=alt.Bin(extent=[0, 255], step=step), axis = None),  # 
         y=alt.Y('y', bin=alt.Bin(extent=[0, 255], step=step), axis = None), 
         color=alt.value('white'),
         size = alt.value(250),
+        href='url:N',
         tooltip = [alt.Tooltip('brand', title='Brand'), 
-                   alt.Tooltip('product', title='Product'),
-                   alt.Tooltip('color', title='Swatch')]
+                   alt.Tooltip('color', title='Swatch'), 
+                   alt.Tooltip('url', title='Google')]
     )
     x_selected, y_selected = xy_rgb(hex_to_rgb(hex_color))
     graph_selected = alt.Chart(pd.DataFrame({'x':[x_selected], 'y':[y_selected]})).mark_circle().encode(
