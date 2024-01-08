@@ -47,7 +47,7 @@ def get_rgb_bottom(rgb_corner):
         y=alt.Y('y', axis = None), 
         color=alt.Color('hex', scale=alt.Scale(domain=colorlist_bottom, range=colorlist_bottom), legend = None),
         opacity=alt.value(0.3) #opacity = alt.condition(selector, alt.value(1), alt.value(0.05)),
-    ).properties(width = 625, height = 50,)
+    ).properties(width = 600, height = 50,)
     graph_selected = alt.Chart(df_selected).mark_rule(width=5).encode(
         x=alt.X('x', axis = None),  # 
         color=alt.value('black')
